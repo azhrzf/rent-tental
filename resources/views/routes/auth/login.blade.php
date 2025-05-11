@@ -1,6 +1,5 @@
 <x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+    <x-utilities.auth-session-status class="mb-4" :status="session('status')" />
     <div class="space-y-4">
         <div>
             <h2 class="text-balance text-xl lg:text-2xl font-bold" aria-describedby="tripDescription">Login</h2>
@@ -8,29 +7,20 @@
                 Masuk untuk melakukan penyewaan tenda.
             </p>
         </div>
-
         <form method="POST" action="{{ route('login') }}">
             @csrf
-
-            <!-- Email Address -->
             <div>
-                <x-input-label for="email" :value="__('Email')" />
-                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
-                    required autofocus autocomplete="username" />
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                <x-inputs.input-label for="email" :value="__('Email')" />
+                <x-inputs.text-input id="email" class="block mt-1 w-full" type="email" name="email"
+                    :value="old('email')" required autofocus autocomplete="username" />
+                <x-inputs.input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
-
-            <!-- Password -->
             <div class="mt-4">
-                <x-input-label for="password" :value="__('Password')" />
-
-                <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required
+                <x-inputs.input-label for="password" :value="__('Password')" />
+                <x-inputs.text-input id="password" class="block mt-1 w-full" type="password" name="password" required
                     autocomplete="current-password" />
-
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                <x-inputs.input-error :messages="$errors->get('password')" class="mt-2" />
             </div>
-
-            <!-- Remember Me -->
             <div class="block mt-4">
                 <label for="remember_me" class="inline-flex items-center">
                     <input id="remember_me" type="checkbox"
@@ -40,9 +30,13 @@
                 </label>
             </div>
             <div class="flex items-center justify-end mt-4">
-                <x-primary-button>
+                <a class="underline text-sm basic-link"
+                    href="{{ route('register') }}">
+                    Atau daftar di sini
+                </a>
+                <x-buttons.primary-button class="ms-4">
                     Login
-                </x-primary-button>
+                </x-buttons.primary-button>
             </div>
         </form>
     </div>
