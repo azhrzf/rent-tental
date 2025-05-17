@@ -15,10 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('identity_number')->unique();
-            $table->date('order_date');
+            $table->date('order_date')->nullable();
             $table->date('expected_return_date');
             $table->enum('status', ['paid', 'unpaid', 'returned'])->default('unpaid');
-            $table->integer('total_price');
             $table->timestamps();
         });
     }

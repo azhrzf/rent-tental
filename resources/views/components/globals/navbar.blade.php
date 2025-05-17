@@ -8,13 +8,40 @@
     <div class="flex items-center justify-between max-w-6xl mx-auto py-2">
         <nav class="inline-block text-sm font-medium">
             @if ($showHeaderLogo)
-                <a href="/"
-                    class="flex items-center justify-center space-x-1 hover:text-neutral-700 dark:hover:text-neutral-300">
-                    <x-globals.application-logo class="lg:w-8 lg:h-8" />
-                    <h1 class="text-md lg:text-2xl font-bold">
-                        {{ config('app.name') }}
-                    </h1>
-                </a>
+                <div class="flex items-center space-x-10">
+                    <a href="/" class="flex items-center space-x-1 text-link">
+                        <x-globals.application-logo class="lg:w-8 lg:h-8" />
+                        <h1 class="text-md lg:text-2xl font-bold">
+                            {{ config('app.name') }}
+                        </h1>
+                    </a>
+                    <div class="hidden lg:flex items-center space-x-5">
+                        <a href="/catalogs" class="text-link hidden lg:flex items-center space-x-1 font-medium text-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-bag">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path
+                                    d="M6.331 8h11.339a2 2 0 0 1 1.977 2.304l-1.255 8.152a3 3 0 0 1 -2.966 2.544h-6.852a3 3 0 0 1 -2.965 -2.544l-1.255 -8.152a2 2 0 0 1 1.977 -2.304z" />
+                                <path d="M9 11v-5a3 3 0 0 1 6 0v5" />
+                            </svg>
+                            <span>Katalog</span>
+                        </a>
+                        <a href="/about" class="text-link hidden lg:flex items-center space-x-1 font-medium text-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-info-circle">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+                                <path d="M12 9h.01" />
+                                <path d="M11 12h1v4h1" />
+                            </svg>
+                            <span>Tentang</span>
+                        </a>
+                    </div>
+                </div>
             @else
                 <ol class="flex flex-wrap items-center gap-1">
                     <li class="flex items-center gap-1">
@@ -24,7 +51,6 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                         </svg>
                     </li>
-
                     <li class="flex items-center gap-1 font-bold text-neutral-700 dark:text-white" aria-current="page">
                         Marketing</li>
                 </ol>

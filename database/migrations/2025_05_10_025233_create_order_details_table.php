@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained()->onDelete('cascade');
             $table->foreignId('tool_id')->constrained()->onDelete('cascade');
             $table->integer('quantity');
-            $table->integer('total_price');
             $table->text('description')->nullable();
             $table->timestamps();
         });

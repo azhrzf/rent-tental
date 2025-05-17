@@ -10,16 +10,16 @@
         <form method="POST" action="{{ route('login') }}">
             @csrf
             <div>
-                <x-inputs.input-label for="email" :value="__('Email')" />
-                <x-inputs.text-input id="email" class="block mt-1 w-full" type="email" name="email"
+                <x-shared-inputs.input-label for="email" :value="__('Email')" />
+                <x-shared-inputs.text-input id="email" class="block mt-1 w-full" type="email" name="email"
                     :value="old('email')" required autofocus autocomplete="username" />
-                <x-inputs.input-error :messages="$errors->get('email')" class="mt-2" />
+                <x-shared-inputs.input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
             <div class="mt-4">
-                <x-inputs.input-label for="password" :value="__('Password')" />
-                <x-inputs.text-input id="password" class="block mt-1 w-full" type="password" name="password" required
+                <x-shared-inputs.input-label for="password" :value="__('Password')" />
+                <x-shared-inputs.text-input id="password" class="block mt-1 w-full" type="password" name="password" required
                     autocomplete="current-password" />
-                <x-inputs.input-error :messages="$errors->get('password')" class="mt-2" />
+                <x-shared-inputs.input-error :messages="$errors->get('password')" class="mt-2" />
             </div>
             <div class="block mt-4">
                 <label for="remember_me" class="inline-flex items-center">
@@ -34,9 +34,9 @@
                     href="{{ route('register') }}">
                     Atau daftar di sini
                 </a>
-                <x-buttons.primary-button class="ms-4">
+                <x-shared-buttons.primary-button class="ms-4">
                     Login
-                </x-buttons.primary-button>
+                </x-shared-buttons.primary-button>
             </div>
         </form>
     </div>

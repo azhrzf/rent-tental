@@ -18,15 +18,15 @@
         @method('patch')
 
         <div>
-            <x-inputs.input-label for="name" :value="__('Name')" />
-            <x-inputs.text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
-            <x-inputs.input-error class="mt-2" :messages="$errors->get('name')" />
+            <x-shared-inputs.input-label for="name" :value="__('Name')" />
+            <x-shared-inputs.text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
+            <x-shared-inputs.input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
         <div>
-            <x-inputs.input-label for="email" :value="__('Email')" />
-            <x-inputs.text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
-            <x-inputs.input-error class="mt-2" :messages="$errors->get('email')" />
+            <x-shared-inputs.input-label for="email" :value="__('Email')" />
+            <x-shared-inputs.text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
+            <x-shared-inputs.input-error class="mt-2" :messages="$errors->get('email')" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
                 <div>
@@ -48,7 +48,7 @@
         </div>
 
         <div class="flex items-center gap-4">
-            <x-buttons.primary-button>{{ __('Save') }}</x-buttons.primary-button>
+            <x-shared-buttons.primary-button>{{ __('Save') }}</x-shared-buttons.primary-button>
 
             @if (session('status') === 'profile-updated')
                 <p

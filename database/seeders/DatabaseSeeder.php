@@ -3,8 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Tool;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +14,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
+            'password' => Hash::make('12345'),
+            'role' => 'admin',
+            'phone_number' => '08123456789',
+            'address' => 'Jl. Admin No. 1',
+        ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        Tool::create([
+            'product_number' => 1001,
+            'name' => 'Tenda Pramuka',
+            'price' => 250000,
+            'total_quantity' => 10,
+            'description' => 'Tenda Pramuka adalah tenda yang dirancang khusus untuk kegiatan pramuka. Tenda ini memiliki desain yang kuat dan tahan lama, serta mudah dipasang dan dibongkar. Cocok untuk kegiatan camping dan perkemahan.',
+            'image' => 'images/tools/tenda-pramuka-1.jpg',
         ]);
     }
 }

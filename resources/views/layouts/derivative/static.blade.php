@@ -1,7 +1,9 @@
-<x-main-layout> 
+<x-main-layout>
     @section('sidebar')
-        <x-globals.sidebar />
+        <x-globals.sidebar :showOnlyMobile="true" />
     @endsection
-    <x-globals.navbar :showHeaderLogo="true"/>
+    @section('navbar')
+        <x-globals.navbar :showHeaderLogo="true" />
+    @endsection
     {{ $slot }}
 </x-main-layout>
