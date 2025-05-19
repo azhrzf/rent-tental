@@ -12,13 +12,14 @@ class Order extends Model
         'order_date',
         'expected_return_date',
         'status',
+        'description',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-    
+
     public function orderDetails()
     {
         return $this->hasMany(OrderDetail::class);

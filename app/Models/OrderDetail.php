@@ -10,7 +10,6 @@ class OrderDetail extends Model
         'order_id',
         'tool_id',
         'quantity',
-        'description',
     ];
 
     /**
@@ -22,17 +21,20 @@ class OrderDetail extends Model
      * @param string|null $description
      * @return OrderDetail
      */
-    public static function createWithTool($toolId, $userId, $quantity = 1, $description = null)
+    public static function createWithTool($toolId, $userId, $quantity = 1)
     {
         $order = Order::firstOrCreate(
-            ['user_id' => $userId, 'status' => 'unpaid'],
+            [
+                'user_id' => $userId,
+                'identity_number' => 'ORD-' . time(),
+                'status' => 'unpaid'
+            ],
         );
 
         return self::create([
             'order_id' => $order->id,
             'tool_id' => $toolId,
             'quantity' => $quantity,
-            'description' => $description,
         ]);
     }
     public function order()

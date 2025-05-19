@@ -12,10 +12,10 @@
             {{ $name }}</h3>
         <div class="flex space-x-2 items-center">
             <span
-                class="rounded-sm w-fit border border-neutral-300 bg-neutral-50 px-2 py-1 text-xs font-medium text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">Jumlah:
+                class="rounded-sm w-fit border border-neutral-300 bg-neutral-50 px-3 py-2 text-xs font-medium text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">Jumlah:
                 {{ $quantity }}</span>
             <span
-                class="rounded-sm w-fit border border-neutral-300 bg-neutral-50 px-2 py-1 text-xs font-medium text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">Total:
+                class="rounded-sm w-fit border border-neutral-300 bg-neutral-50 px-3 py-2 text-xs font-medium text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">Total:
                 ${{ $totalPrice }}</span>
         </div>
         <p id="productDescription" class="mb-2 text-pretty text-sm">

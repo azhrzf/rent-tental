@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ToolController;
+use App\Http\Controllers\OrderDetailController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -10,6 +11,10 @@ Route::get('/', function () {
 
 Route::get('/catalogs', [ToolController::class, 'index']);
 Route::get('/catalogs', [ToolController::class, 'search'])->name('tools.search');
+
+Route::post('/order-details', [OrderDetailController::class, 'store'])
+    ->middleware(['auth', 'verified'])
+    ->name('order-details.store');
 
 Route::get('/cart', function () {
     return view('routes.dashboard.cart');

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('order_date')->nullable();
             $table->date('expected_return_date');
             $table->enum('status', ['paid', 'unpaid', 'returned'])->default('unpaid');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

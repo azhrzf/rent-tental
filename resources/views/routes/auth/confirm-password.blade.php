@@ -8,20 +8,20 @@
 
         <!-- Password -->
         <div>
-            <x-shared-inputs.input-label for="password" :value="__('Password')" />
+            <x-shared.inputs.input-label for="password" :value="__('Password')" />
 
-            <x-shared-inputs.text-input id="password" class="block mt-1 w-full"
+            <x-shared.inputs.text-input id="password" class="block mt-1 w-full"
                             type="password"
                             name="password"
                             required autocomplete="current-password" />
 
-            <x-shared-inputs.input-error :messages="$errors->get('password')" class="mt-2" />
+            <x-shared.inputs.input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
         <div class="flex justify-end mt-4">
-            <x-shared-buttons.primary-button>
+            <x-shared.buttons.primary-button>
                 {{ __('Confirm') }}
-            </x-shared-buttons.primary-button>
+            </x-shared.buttons.primary-button>
         </div>
     </form>
 </x-guest-layout>

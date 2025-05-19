@@ -17,7 +17,6 @@
             @endfor
         </div>
         <div class="py-5 flex items-center justify-center mt-auto">
-            <x-shared.pagination.basic-pagination :currentPage="1" :lastPage="10" :nextPageUrl="'https://stk.com'" :previousPageUrl="'https://stk.com'" />
         </div>
     </div>
 </x-dashboard-layout>
