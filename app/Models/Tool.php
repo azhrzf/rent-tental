@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Tool extends Model
 {
@@ -11,24 +12,35 @@ class Tool extends Model
         'name',
         'price',
         'total_quantity',
+        'status',
         'description',
         'image',
     ];
 
-    public static function getAllTools()
-    {
-        return self::all();
-    }
-
-    public static function search($keyword, $perPage = 12)
-    {
-        return self::where('name', 'like', "%{$keyword}%")
-            ->orWhere('description', 'like', "%{$keyword}%")
-            ->paginate($perPage);
-    }
-
     public function orderDetails()
     {
         return $this->hasMany(OrderDetail::class);
+    }
+
+    public function getAvailableQuantityAttribute()
+    {
+        $paidQuantity = $this->orderDetails()
+            ->whereHas('order', function ($query) {
+                $query->where('status', 'paid');
+            })
+            ->sum('quantity');
+
+        $unpaidQuantity = 0;
+        if (Auth::check()) {
+            $userId = Auth::id();
+            $unpaidQuantity = $this->orderDetails()
+                ->whereHas('order', function ($query) use ($userId) {
+                    $query->where('status', 'unpaid')
+                        ->where('user_id', $userId);
+                })
+                ->sum('quantity');
+        }
+
+        return $this->total_quantity - $paidQuantity - $unpaidQuantity;
     }
 }

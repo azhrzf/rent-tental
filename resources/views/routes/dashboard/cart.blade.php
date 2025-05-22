@@ -1,22 +1,38 @@
-<x-dashboard-layout>
-    <div class="space-y-6">
-        <div class="relative flex w-full max-w-xs flex-col gap-1 text-neutral-600 dark:text-neutral-300">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                aria-hidden="true"
-                class="absolute left-2.5 top-1/2 size-5 -translate-y-1/2 text-neutral-600/50 dark:text-neutral-300/50">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-            </svg>
-            <input type="search"
-                class="w-full rounded-sm border border-neutral-300 bg-neutral-50 py-2 pl-10 pr-2 text-sm  disabled:cursor-not-allowed disabled:opacity-75 dark:border-neutral-700 dark:bg-neutral-900/50"
-                name="search" placeholder="Search" aria-label="search" />
-        </div>
-        <div class="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            @for ($i = 0; $i < 6; $i++)
-                <x-features.cart-card name="Product Name" image="image-not-found.jpg" quantity="1" totalPrice="100.00" description="Product description goes here." />
-            @endfor
-        </div>
-        <div class="py-5 flex items-center justify-center mt-auto">
-        </div>
-    </div>
-</x-dashboard-layout>
+ @if (session('success'))
+     <x-utilities.toast variant="success" title="Berhasil" :message="session('success')" />
+ @endif
+ <x-dashboard-layout>
+     <div class="space-y-6">
+         <div class="space-y-3">
+             <div class="w-full lg:max-w-xs">
+                 <x-shared.inputs.search-input route="cart.current" :keyword="$keyword" />
+             </div>
+             @if ($orderDetails && $orderDetails->count())
+                 <div class="max-w-xs grid grid-cols-12 gap-2">
+                     <div class="col-span-7">
+                         <x-features.cart.cart-order-form :order="$order" :totalPrice="$totalPrice" />
+                     </div>
+                     <div
+                         class="col-span-5 rounded-sm w-full border border-neutral-300 bg-neutral-50 px-2 py-2 text-xs font-medium text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">
+                         Total: Rp{{ format_number($totalPrice) }}
+                     </div>
+                 </div>
+             @endif
+         </div>
+         <div class="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+             @if ($orderDetails && $orderDetails->count())
+                 @foreach ($orderDetails as $orderDetail)
+                     <x-features.cart.cart-card id="{{ $orderDetail['id'] }}" name="{{ $orderDetail['tool']['name'] }}"
+                         image="{{ $orderDetail['tool']['image'] }}" quantity="{{ $orderDetail['total_quantity'] }}"
+                         totalPrice="{{ $orderDetail['total_price'] }}"
+                         description="{{ $orderDetail['tool']['description'] }}" />
+                 @endforeach
+             @else
+                 <x-utilities.empty-result emptyText="alat" />
+             @endif
+         </div>
+         @if ($orderDetails && $orderDetails->count())
+             {{  $orderDetails->links() }}
+         @endif
+     </div>
+ </x-dashboard-layout>

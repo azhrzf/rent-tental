@@ -3,7 +3,7 @@
 ])
 
 <header
-    class="px-4 lg:px-0 sticky top-0 z-40 border-b border-neutral-300 bg-neutral-50 py-2 dark:border-neutral-700 dark:bg-neutral-900"
+    class="px-4 lg:px-0 sticky top-0 z-50 border-b border-neutral-300 bg-neutral-50 py-2 dark:border-neutral-700 dark:bg-neutral-900"
     aria-label="top navibation bar">
     <div class="flex items-center justify-between max-w-6xl mx-auto py-2">
         <nav class="inline-block text-sm font-medium">

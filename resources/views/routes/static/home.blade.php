@@ -1,7 +1,7 @@
 <x-static-layout>
     <div class="relative bg-gradient-to-r from-gray-900 to-gray-800 dark:from-black dark:to-gray-900">
         <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+            <img src="/assets/images/photo-1504280390367-361c6d9f38f4.avif"
                 alt="Camping tents under starry night" class="w-full h-full object-cover opacity-40">
         </div>
         <div class="relative z-10 px-4 lg:px-0 py-16 lg:py-36 max-w-6xl mx-auto">
@@ -14,7 +14,7 @@
                     tenda untuk kebutuhan outdoor Anda.
                 </p>
                 <div class="flex flex-wrap gap-4">
-                    <a href="{{ route('dashboard') }}"
+                    <a href="{{ route('catalogs') }}"
                         class="px-6 py-3 border border-white bg-black/40 hover:bg-black/80 text-white font-medium rounded-sm transition duration-300">
                         Pelajari Lebih Lanjut
                     </a>

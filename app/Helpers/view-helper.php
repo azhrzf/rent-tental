@@ -10,3 +10,10 @@ if (!function_exists('words_limit')) {
         return implode(' ', array_slice($words, 0, $limit)) . $end;
     }
 }
+
+if (!function_exists('format_number')) {
+    function format_number($number, $decimals = 0)
+    {
+        return number_format($number, $decimals, ',', '.');
+    }
+}

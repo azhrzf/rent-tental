@@ -7,17 +7,21 @@ use Illuminate\Http\Request;
 
 class ToolController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $tools = Tool::paginate(12);
+        $keyword = $request->input('search', '');
 
-        return view('routes.dashboard.catalogs', compact('tools'));
-    }
+        $query = Tool::with('orderDetails')
+            ->where('status', 'available');
 
-    public function search(Request $request)
-    {
-        $keyword = $request->input('search');
-        $tools = Tool::search($keyword);
+        if ($keyword) {
+            $query->where(function ($q) use ($keyword) {
+                $q->where('name', 'like', "%{$keyword}%")
+                    ->orWhere('description', 'like', "%{$keyword}%");
+            });
+        }
+
+        $tools = $query->paginate(12);
 
         return view('routes.dashboard.catalogs', compact('tools', 'keyword'));
     }

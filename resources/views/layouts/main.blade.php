@@ -21,8 +21,7 @@
 
 <body class="font-sans text-black dark:text-white antialiased bg-gray-100 dark:bg-[#0A0A0A]">
     <div x-data="{ sidebarIsOpen: false }" class="relative flex w-full flex-col md:flex-row">
-        <a class="sr-only" href="#main-content">skip to the main content</a>
-        <div x-cloak x-show="sidebarIsOpen" class="fixed inset-0 z-20 bg-neutral-950/10 backdrop-blur-xs md:hidden"
+        <div x-cloak x-show="sidebarIsOpen" class="fixed inset-0 z-50 bg-neutral-950/10 backdrop-blur-xs md:hidden"
             aria-hidden="true" x-on:click="sidebarIsOpen = false" x-transition.opacity></div>
         @yield('sidebar')
         <div class="min-h-screen flex flex-col justify-between w-full">
@@ -30,7 +29,7 @@
             <main class="flex-grow">
                 {{ $slot }}
             </main>
-           <x-globals.footer /> 
+            <x-globals.footer />
         </div>
     </div>
 </body>

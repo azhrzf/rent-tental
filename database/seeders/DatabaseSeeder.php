@@ -37,6 +37,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Tenda Pramuka',
             'price' => 250000,
             'total_quantity' => 10,
+            'status' => 'available',
             'description' => 'Tenda Pramuka adalah tenda yang dirancang khusus untuk kegiatan pramuka. Tenda ini memiliki desain yang kuat dan tahan lama, serta mudah dipasang dan dibongkar. Cocok untuk kegiatan camping dan perkemahan.',
             'image' => 'tenda-pramuka-1.jpg',
         ]);

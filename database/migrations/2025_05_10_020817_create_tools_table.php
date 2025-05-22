@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('price');
             $table->string('total_quantity');
+            $table->enum('status', ['available', 'unavailable', 'removed'])->default('available');
             $table->text('description')->nullable();
             $table->string('image')->nullable();
             $table->timestamps();

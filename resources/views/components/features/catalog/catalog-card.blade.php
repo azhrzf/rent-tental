@@ -19,12 +19,12 @@
                 {{ $availableQuantity }}
             </span>
             <span
-                class="rounded-sm w-fit border border-neutral-300 bg-neutral-50 px-2 py-1 text-xs font-medium text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">Sewa:
+                class="rounded-sm w-fit border border-neutral-300 bg-neutral-50 px-2 py-1 text-xs font-medium text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">Tambah ke keranjang:
                 Rp{{ $price }}
             </span>
         </div>
     </div>
     <div class="mx-6 mb-6">
-        <x-shared.forms.order-details-store toolId="{{ $id }}"/>
+        <x-features.catalog.catalog-card-quantity-form :id="$id" :availableQuantity="$availableQuantity" />
     </div>
 </article>

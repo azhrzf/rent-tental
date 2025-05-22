@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('identity_number')->unique();
             $table->date('order_date')->nullable();
-            $table->date('expected_return_date');
-            $table->enum('status', ['paid', 'unpaid', 'returned'])->default('unpaid');
+            $table->date('expected_return_date')->nullable();
+            $table->enum('status', ['paid', 'unpaid', 'need_confirmation', 'returned'])->default('unpaid');
             $table->text('description')->nullable();
             $table->timestamps();
         });

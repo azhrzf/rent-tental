@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ToolController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,26 +10,37 @@ Route::get('/', function () {
     return view('routes.static.home');
 });
 
-Route::get('/catalogs', [ToolController::class, 'index']);
-Route::get('/catalogs', [ToolController::class, 'search'])->name('tools.search');
+Route::get('/catalogs', [ToolController::class, 'index'])->name('catalogs');
 
-Route::post('/order-details', [OrderDetailController::class, 'store'])
+Route::get('/cart', [OrderController::class, 'current'])
     ->middleware(['auth', 'verified'])
-    ->name('order-details.store');
+    ->name('cart.current');
 
-Route::get('/cart', function () {
-    return view('routes.dashboard.cart');
-});
+Route::post('/cart/items', [OrderDetailController::class, 'store'])
+    ->middleware(['auth', 'verified'])
+    ->name('cart.items.store');
+
+Route::patch('/cart/items/{orderDetail}', [OrderDetailController::class, 'update'])
+    ->middleware(['auth', 'verified'])
+    ->name('cart.items.update');
+
+Route::delete('/cart/items/{orderDetail}', [OrderDetailController::class, 'destroy'])
+    ->middleware(['auth', 'verified'])
+    ->name('cart.items.destroy');
+
+Route::put('/orders/{order}', [OrderController::class, 'update'])
+    ->middleware(['auth', 'verified'])
+    ->name('orders.update');
+
+Route::get('/orders/history', [OrderController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('orders.history');
 
 // Route::middleware(['auth', 'verified', 'admin'])->group(function () {
 //     // Admin-only routes go here
 //     Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
 //     // More admin routes...
 // });
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
