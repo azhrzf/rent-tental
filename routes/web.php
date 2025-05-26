@@ -12,6 +12,9 @@ Route::get('/', function () {
 
 Route::get('/catalogs', [ToolController::class, 'index'])->name('catalogs');
 
+Route::get('/catalogs/{tool}', [ToolController::class, 'show'])
+    ->name('catalogs.show');
+
 Route::get('/cart', [OrderController::class, 'current'])
     ->middleware(['auth', 'verified'])
     ->name('cart.current');
@@ -28,13 +31,13 @@ Route::delete('/cart/items/{orderDetail}', [OrderDetailController::class, 'destr
     ->middleware(['auth', 'verified'])
     ->name('cart.items.destroy');
 
-Route::put('/orders/{order}', [OrderController::class, 'update'])
+Route::patch('/orders/{order}', [OrderController::class, 'update'])
     ->middleware(['auth', 'verified'])
     ->name('orders.update');
 
-Route::get('/orders/history', [OrderController::class, 'index'])
+Route::get('/orders', [OrderController::class, 'index'])
     ->middleware(['auth', 'verified'])
-    ->name('orders.history');
+    ->name('orders.index');
 
 // Route::middleware(['auth', 'verified', 'admin'])->group(function () {
 //     // Admin-only routes go here

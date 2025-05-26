@@ -11,26 +11,16 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        $userId = Auth::id();
-        $startDate = $request->input('start_date');
-        $endDate = $request->input('end_date');
+        $result = Order::getUserOrdersWithDetails(
+            Auth::id(),
+            $request->input('start_date'),
+            $request->input('end_date')
+        );
 
-        $orders = Order::where('user_id', $userId)
-            ->where('status', 'unpaid')
-            ->when($startDate, function ($query) use ($startDate) {
-                $query->whereDate('order_date', '>=', $startDate);
-            })
-            ->when($endDate, function ($query) use ($endDate) {
-                $query->whereDate('order_date', '<=', $endDate);
-            })
-            ->latest()
-            ->paginate(10);
-
-        return view('routes.dashboard.orders-history', [
-            'orders' => $orders,
-            'startDate' => $startDate,
-            'endDate' => $endDate,
-        ]);
+        return view('routes.dashboard.orders-history', array_merge($result, [
+            'startDate' => $request->input('start_date'),
+            'endDate' => $request->input('end_date'),
+        ]));
     }
 
     public function current(Request $request)
@@ -38,56 +28,13 @@ class OrderController extends Controller
         $keyword = $request->input('search', '');
         $userId = Auth::id();
 
-        $order = Order::where('user_id', $userId)
-            ->where('status', 'unpaid')
-            ->latest()
-            ->first();
-
-        $aggregatedTools = collect();
-        $totalPrice = 0;
-
-        if ($order) {
-            $query = OrderDetail::with('tool')
-                ->where('order_id', $order->id);
-
-            if ($keyword) {
-                $query->whereHas('tool', function ($q) use ($keyword) {
-                    $q->where('name', 'like', "%{$keyword}%")
-                        ->orWhere('description', 'like', "%{$keyword}%");
-                });
-            }
-
-            $perPage = 12;
-            $paginatedOrderDetails = $query->paginate($perPage);
-
-            $aggregatedTools = $paginatedOrderDetails->getCollection()
-                ->groupBy('tool_id')
-                ->map(function ($items) {
-                    $firstItem = $items->first();
-                    return [
-                        'id' => $firstItem->id,
-                        'tool' => $firstItem->tool,
-                        'tool_id' => $firstItem->tool_id,
-                        'total_quantity' => $items->sum('quantity'),
-                        'unit_price' => $firstItem->tool->price,
-                        'total_price' => $firstItem->tool->price * $items->sum('quantity'),
-                        'order_id' => $firstItem->order_id
-                    ];
-                })
-                ->values();
-
-            $totalPrice = $aggregatedTools->sum('total_price');
-
-            $paginatedOrderDetails->setCollection($aggregatedTools);
-        } else {
-            $paginatedOrderDetails = null;
-        }
+        $cartData = Order::getCurrentCartData($userId, $keyword);
 
         return view('routes.dashboard.cart', [
-            'orderDetails' => $paginatedOrderDetails,
-            'order' => $order,
+            'orderDetails' => $cartData['orderDetails'],
+            'order' => $cartData['order'],
             'keyword' => $keyword,
-            'totalPrice' => $totalPrice,
+            'totalPrice' => $cartData['totalPrice'],
         ]);
     }
 
@@ -100,8 +47,10 @@ class OrderController extends Controller
         $validated = $request->validate([
             'status' => 'required|in:paid,unpaid,returned,need_confirmation',
             'order_date' => 'required|date',
-            'expected_return_date' => 'required_if:status,paid|nullable|date|after:today',
+            'expected_return_date' => 'required|date|after_or_equal:order_date',
             'description' => 'nullable|string|max:500',
+        ], [
+            'expected_return_date.after_or_equal' => 'Tanggal pengembalian harus sama atau setelah tanggal sewa.',
         ]);
 
         foreach ($order->orderDetails as $orderDetail) {
@@ -118,9 +67,9 @@ class OrderController extends Controller
         $order->update($validated);
 
         if ($request->status === 'paid') {
-            return redirect()->route('orders-history')->with('success', 'Pesanan berhasil dibayar dan akan segera diproses.');
+            return redirect()->route('orders.index')->with('success', 'Pesanan berhasil dibayar dan akan segera diproses.');
         }
 
-        return redirect()->route('cart.current')->with('success', 'Status pesanan berhasil diperbarui.');
+        return redirect()->route('orders.index')->with('success', 'Pesanan berhasil. Silakan tunggu konfirmasi dari Admin.');
     }
 }

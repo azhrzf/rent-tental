@@ -7,3 +7,7 @@
         @apply hover:text-neutral-600 dark:hover:text-neutral-400 transition duration-200 ease-in-out;
     }
 }
+
+.dark ::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}

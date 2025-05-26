@@ -9,8 +9,7 @@
          <div class="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
              @if ($tools && $tools->count())
                  @foreach ($tools as $tool)
-                     <x-features.catalog.catalog-card :id="$tool->id" :name="$tool->name" :image="$tool->image"
-                         :price="$tool->price" :availableQuantity="$tool->available_quantity" :description="$tool->description" />
+                     <x-features.catalog.catalog-card :tool="$tool" />
                  @endforeach
              @else
                  <x-utilities.empty-result emptyText="alat" />

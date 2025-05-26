@@ -35,12 +35,30 @@ class Tool extends Model
             $userId = Auth::id();
             $unpaidQuantity = $this->orderDetails()
                 ->whereHas('order', function ($query) use ($userId) {
-                    $query->where('status', 'unpaid')
+                    $query->whereIn('status', ['unpaid', 'need_confirmation', 'paid'])
                         ->where('user_id', $userId);
                 })
                 ->sum('quantity');
         }
 
         return $this->total_quantity - $paidQuantity - $unpaidQuantity;
+    }
+
+    public function isQuantityInOtherCarts($quantity)
+    {
+        if (!Auth::check()) {
+            return false;
+        }
+
+        $userId = Auth::id();
+
+        $otherUsersQuantity = $this->orderDetails()
+            ->whereHas('order', function ($query) use ($userId) {
+                $query->whereIn('status', ['unpaid', 'need_confirmation'])
+                    ->where('user_id', '!=', $userId);
+            })
+            ->sum('quantity');
+
+        return $otherUsersQuantity >= $quantity;
     }
 }

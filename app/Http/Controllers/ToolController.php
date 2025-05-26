@@ -25,4 +25,11 @@ class ToolController extends Controller
 
         return view('routes.dashboard.catalogs', compact('tools', 'keyword'));
     }
+
+    public function show($id)
+    {
+        $tool = Tool::where('id', $id)->firstOrFail();
+
+        return view('routes.dashboard.catalogs-detail', compact('tool'));
+    }
 }

@@ -43,17 +43,16 @@
                     </div>
                 </div>
             @else
-                <ol class="flex flex-wrap items-center gap-1">
-                    <li class="flex items-center gap-1">
-                        <a href="#" class="hover:text-neutral-700 dark:hover:text-white">Dashboard</a>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none"
-                            stroke-width="2" class="size-4" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                        </svg>
-                    </li>
-                    <li class="flex items-center gap-1 font-bold text-neutral-700 dark:text-white" aria-current="page">
-                        Marketing</li>
-                </ol>
+                <div>
+                    <div class="hidden lg:block">
+                        <p>Dashboard</p>
+                    </div>
+                    <div class="lg:hidden">
+                        <a href="/" class="flex items-center space-x-1 text-link">
+                            <x-globals.application-logo class="w-8 h-8" />
+                            <span class="text-md font-bold">{{ config('app.name') }}</span>
+                        </a>
+                    </div>
             @endif
         </nav>
         <div class="flex items-center space-x-2">

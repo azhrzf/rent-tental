@@ -1,6 +1,9 @@
  @if (session('success'))
      <x-utilities.toast variant="success" title="Berhasil" :message="session('success')" />
  @endif
+ @if ($errors->any())
+     <x-utilities.toast variant="danger" title="Kesalahan" :message="$errors->all() ? implode(', ', $errors->all()) : ''" />
+ @endif
  <x-dashboard-layout>
      <div class="space-y-6">
          <div class="space-y-3">
@@ -22,17 +25,14 @@
          <div class="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
              @if ($orderDetails && $orderDetails->count())
                  @foreach ($orderDetails as $orderDetail)
-                     <x-features.cart.cart-card id="{{ $orderDetail['id'] }}" name="{{ $orderDetail['tool']['name'] }}"
-                         image="{{ $orderDetail['tool']['image'] }}" quantity="{{ $orderDetail['total_quantity'] }}"
-                         totalPrice="{{ $orderDetail['total_price'] }}"
-                         description="{{ $orderDetail['tool']['description'] }}" />
+                     <x-features.cart.cart-card :orderDetail="$orderDetail" />
                  @endforeach
              @else
                  <x-utilities.empty-result emptyText="alat" />
              @endif
          </div>
          @if ($orderDetails && $orderDetails->count())
-             {{  $orderDetails->links() }}
+             {{ $orderDetails->links() }}
          @endif
      </div>
  </x-dashboard-layout>

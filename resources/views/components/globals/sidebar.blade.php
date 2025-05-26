@@ -74,7 +74,7 @@
                     </div>
                     <span>Keranjang</span>
                 </a>
-                <a href="{{ route('orders.history') }}" @class([
+                <a href="{{ route('orders.index') }}" @class([
                     'flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium underline-offset-2 focus-visible:underline focus:outline-hidden',
                     'bg-black/10 dark:bg-white/10 text-neutral-900 dark:text-white' => request()->is(
                         'orders/history*'),

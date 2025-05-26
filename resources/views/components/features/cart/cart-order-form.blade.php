@@ -1,4 +1,5 @@
 @props(['order', 'totalPrice'])
+
 <x-shared.buttons.modal-button modalName="process-order-modal" class="w-full flex items-center justify-center gap-1.5">
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -25,13 +26,13 @@
     </div>
     <form action="{{ route('orders.update', $order->id) }}" method="POST" class="space-y-6">
         @csrf
-        @method('PUT')
+        @method('PATCH')
         <input type="hidden" name="status" value="need_confirmation">
         <div class="space-y-4 px-4 ">
             <div>
-                <label for="expected_return_date"
+                <label for="order_date"
                     class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
-                    Tanggal Peminjaman
+                    Tanggal Sewa
                 </label>
                 <input type="date" id="order_date" name="order_date"
                     value="{{ old('order_date', $order->order_date) }}"

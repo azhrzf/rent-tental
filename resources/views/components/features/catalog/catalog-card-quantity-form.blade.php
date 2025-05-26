@@ -1,4 +1,4 @@
-@props(['id', 'availableQuantity'])
+@props(['tool'])
 
 <x-shared.buttons.modal-button modalName="edit-quantity-modal" class="w-full flex items-center justify-center gap-1.5">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" class="size-3.5">
@@ -18,10 +18,10 @@
                 Ubah Jumlah</h3>
         </div>
         <div class="px-4 py-8">
-            <input type="hidden" name="tool_id" value="{{ $id }}">
-            <x-shared.inputs.quantity-input inputName="quantity" :quantity="$availableQuantity == 0 ? 0 : 1" :availableQuantity="$availableQuantity"
-                :disabled="$availableQuantity == 0" />
-            @if ($availableQuantity == 0)
+            <input type="hidden" name="tool_id" value="{{ $tool->id }}">
+            <x-shared.inputs.quantity-input inputName="quantity" :quantity="$tool->availableQuantity == 0 ? 0 : 1" :availableQuantity="$tool->availableQuantity"
+                :disabled="$tool->availableQuantity == 0" />
+            @if ($tool->availableQuantity == 0)
                 <p class="text-xs text-red-500 mt-2">Stok tidak tersedia.</p>
             @endif
         </div>
@@ -29,7 +29,7 @@
             class="flex space-x-2 justify-end border-t border-neutral-300 bg-neutral-50/60 px-4 pb-2 pt-3 dark:border-neutral-700 dark:bg-neutral-950/20">
             <x-shared.buttons.secondary-button class="w-full lg:w-auto"
                 x-on:click="$dispatch('close')">Batalkan</x-shared.buttons.secondary-button>
-            <x-shared.buttons.primary-button class="w-full lg:w-auto" :disabled="$availableQuantity == 0">
+            <x-shared.buttons.primary-button class="w-full lg:w-auto" :disabled="$tool->availableQuantity == 0">
                 Tambah ke keranjang
             </x-shared.buttons.primary-button>
         </div>
