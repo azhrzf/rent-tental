@@ -10,6 +10,10 @@ Route::get('/', function () {
     return view('routes.static.home');
 });
 
+Route::get('/about', function () {
+    return view('routes.static.about');
+})->name('about');
+
 Route::get('/catalogs', [ToolController::class, 'index'])->name('catalogs');
 
 Route::get('/catalogs/{tool}', [ToolController::class, 'show'])

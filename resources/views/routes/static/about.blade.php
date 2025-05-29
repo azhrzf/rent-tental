@@ -1,5 +1,5 @@
 <x-static-layout>
-    <div class="max-w-3xl mx-auto py-16 px-4">
+    <div class="max-w-6xl mx-auto py-16 px-4 lg:px-0">
         <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Tentang Kami</h1>
         <p class="text-lg text-gray-700 dark:text-gray-300 mb-6">
             Pemesanan Tenda adalah platform penyewaan tenda dan perlengkapan camping terpercaya di Indonesia. Kami
