@@ -16,6 +16,7 @@ class Order extends Model
         'actual_return_date',
         'expected_return_date',
         'status',
+        'payment_proof',
         'description',
     ];
 

@@ -71,6 +71,16 @@ Route::middleware('auth')->group(function () {
         ->name('profile.destroy');
 });
 
+Route::get('/images/payments/{filename}', function ($filename) {
+    $path = storage_path('app/public/images/payments/' . $filename);
+
+    if (!file_exists($path)) {
+        abort(404);
+    }
+
+    return response()->file($path);
+});
+
 Route::get('/images/tools/{filename}', function ($filename) {
     $path = storage_path('app/public/images/tools/' . $filename);
 

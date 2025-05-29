@@ -7,7 +7,7 @@
                     <h2 class="text-xl font-bold text-neutral-900 dark:text-white mb-4">
                         Order #{{ $order->identity_number }}
                     </h2>
-                    <div class="space-y-2">
+                    <div class="space-y-4">
                         <p class="text-sm text-neutral-600 dark:text-neutral-300">
                             <span class="font-medium">Status:</span>
                             <span
@@ -21,6 +21,14 @@
                                 {{ order_status_mapper($order->status) }}
                             </span>
                         </p>
+                        @if ($order->payment_proof)
+                            <x-shared.buttons.secondary-button>
+                                <a href="{{ asset('/images/payments/' . $order->payment_proof) }}" target="_blank"
+                                    class="hover:underline">Lihat Bukti Pembayaran</a>
+                            </x-shared.buttons.secondary-button>
+                        @else
+                            <span class="text-neutral-500">Tidak Ada</span>
+                        @endif
                     </div>
                 </div>
                 @if (isset($isAdmin) && $isAdmin && isset($user))
@@ -47,7 +55,7 @@
                     @endif
                     @if ($order->pickup_date)
                         <p class="text-sm text-neutral-600 dark:text-neutral-300">
-                            <span class="font-medium">Tanggal Pengambilan:</span>
+                            <span class="font-medium">Tanggal Sewa:</span>
                             {{ $order->pickup_date }}
                         </p>
                     @endif

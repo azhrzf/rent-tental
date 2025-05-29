@@ -42,11 +42,12 @@
                             <th scope="col" class="p-4">Order ID</th>
                             <th scope="col" class="p-4">Customer</th>
                             <th scope="col" class="p-4">Tanggal Order</th>
-                            <th scope="col" class="p-4">Tanggal Pengambilan</th>
+                            <th scope="col" class="p-4">Tanggal Sewa</th>
                             <th scope="col" class="p-4">Tanggal Pengembalian</th>
                             <th scope="col" class="p-4">Status</th>
                             <th scope="col" class="p-4">Total Alat</th>
                             <th scope="col" class="p-4">Jumlah Pembayaran</th>
+                            <th scope="col" class="p-4">Bukti Pembayaran</th>
                             <th scope="col" class="p-4">Detail</th>
                             <th scope="col" class="p-4">Aksi</th>
                         </tr>
@@ -89,6 +90,16 @@
                                 <td class="p-4">{{ order_status_mapper($order->status) }}</td>
                                 <td class="p-4">{{ $order->getTotalQuantity() }}</td>
                                 <td class="p-4">Rp{{ format_number($order->getTotalPrice()) }}</td>
+                                <td class="p-4">
+                                    @if ($order->payment_proof)
+                                        <x-shared.buttons.secondary-button>
+                                            <a href="{{ asset('/images/payments/' . $order->payment_proof) }}"
+                                                target="_blank" class="hover:underline">Lihat Bukti</a>
+                                        </x-shared.buttons.secondary-button>
+                                    @else
+                                        <span class="text-neutral-500">Tidak Ada</span>
+                                    @endif
+                                </td>
                                 <td class="p-4">
                                     <a href="{{ route('orders.show', $order->id) }}">
                                         <x-shared.buttons.secondary-button>

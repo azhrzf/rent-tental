@@ -1,6 +1,7 @@
 @props(['order', 'totalPrice'])
 
-<x-shared.buttons.modal-button modalName="process-order-modal-{{ $order->id }}" class="w-full flex items-center justify-center gap-1.5">
+<x-shared.buttons.modal-button modalName="process-order-modal-{{ $order->id }}"
+    class="w-full flex items-center justify-center gap-1.5">
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
         class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-bag-check">
@@ -24,7 +25,8 @@
             class="rounded-sm w-fit border border-neutral-300 bg-neutral-50 px-3 py-2 text-xs font-medium text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">Total:
             Rp{{ format_number($totalPrice) }}</span>
     </div>
-    <form action="{{ route('orders.update', $order->id) }}" method="POST" class="space-y-6">
+    <form action="{{ route('orders.update', $order->id) }}" method="POST" enctype="multipart/form-data"
+        class="space-y-6">
         @csrf
         @method('PATCH')
         <input type="hidden" name="status" value="need_confirmation">
@@ -32,7 +34,7 @@
         <div class="space-y-4 px-4">
             <div>
                 <label for="pickup_date" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
-                    Tanggal Pengambilan
+                    Tanggal Sewa
                 </label>
                 <input type="date" id="pickup_date" name="pickup_date"
                     value="{{ old('pickup_date', $order->pickup_date) }}" min="{{ date('Y-m-d', strtotime('+1 day')) }}"
@@ -53,6 +55,21 @@
                     class="block w-full rounded-sm border-neutral-300 py-2 text-neutral-900 shadow-sm focus:border-black focus:ring-black dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:focus:border-white dark:focus:ring-white"
                     required>
                 @error('expected_return_date')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+            <div>
+                <p>Pembayaran melalui rekening BCA: <span class="font-semibold">7735293095</span>
+            </div>
+            <div>
+                <label for="payment_proof" class="w-fit pl-0.5 text-sm text-neutral-600 dark:text-neutral-300">
+                    Bukti Pembayaran
+                </label>
+                <input required type="file" id="payment_proof" name="payment_proof"
+                    accept="image/jpeg,image/png,image/jpg,image/gif"
+                    class="w-full cursor-pointer overflow-clip rounded-sm border border-neutral-300 bg-neutral-50/50 text-sm text-neutral-600 file:mr-4 file:border-none file:bg-neutral-200 file:px-4 file:py-2 file:font-medium file:text-neutral-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black disabled:cursor-not-allowed disabled:opacity-75 dark:border-neutral-700 dark:bg-neutral-900/50 dark:text-neutral-300 dark:file:bg-neutral-700 dark:file:text-white dark:focus-visible:outline-white">
+                <p class="mt-1 text-xs text-neutral-500">Format: JPEG, PNG, JPG, GIF. Maksimal 2MB.</p>
+                @error('payment_proof')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>

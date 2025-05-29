@@ -1,11 +1,14 @@
  <footer class="bg-white dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-800">
      <div class="max-w-6xl mx-auto px-4 lg:px-0 py-8">
-         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-             <div>
+         <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+             <div class="col-span-6">
                  <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Tentang Kami</h3>
                  <p class="text-gray-600 dark:text-gray-300 mb-4">
-                     Kami menyediakan berbagai jenis tenda berkualitas untuk kebutuhan camping dan outdoor
-                     Anda. Dengan pengalaman lebih dari 5 tahun di bidang penyewaan peralatan outdoor.
+                     Marta Sari Group merupakan Usaha Mikro Kecil Menengah yang bergerak dalam kategoripenyewaan tenda
+                     yang beralamatkan Jl. Duren, Gedangan, Kecamatan Grogol,
+                     Kabupaten Sukoharjo, Jawa Tengah. UMKM ini telah berdiri sejak bulan juni padatahun 1998 dan
+                     berkomitmen untuk selalu menjadi usaha jasa penyewaan tenda yang
+                     selalu mengutamakan kepuasan pelanggan
                  </p>
                  <div class="flex space-x-4">
                      <a href="#" class="basic-link">
@@ -34,7 +37,7 @@
                      </a>
                  </div>
              </div>
-             <div>
+             <div class="col-span-3">
                  <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Tautan Cepat</h3>
                  <ul class="space-y-2">
                      <li><a href="/"
@@ -50,31 +53,16 @@
                      </li>
                  </ul>
              </div>
-             <div>
+             <div class="col-span-3">
                  <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Kontak Kami</h3>
                  <ul class="space-y-3">
                      <li class="flex items-start">
-                         <svg class="h-5 w-5 mt-1 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                 d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                 d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                         </svg>
-                         <span class="text-gray-600 dark:text-gray-300">Jl. Duren, Dusun 2, Gedangan, Kec. Grogol, Kabupaten Sukoharjo, Jawa Tengah 57552</span>
+
+                         <span class="text-gray-600 dark:text-gray-300">Jl. Duren, Dusun 2, Gedangan, Kec. Grogol,
+                             Kabupaten Sukoharjo, Jawa Tengah 57552</span>
                      </li>
                      <li class="flex items-start">
-                         <svg class="h-5 w-5 mt-1 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                 d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                         </svg>
-                         <span class="text-gray-600 dark:text-gray-300">info@tendacamp.id</span>
-                     </li>
-                     <li class="flex items-start">
-                         <svg class="h-5 w-5 mt-1 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                 d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                         </svg>
-                         <span class="text-gray-600 dark:text-gray-300">+62 812-3456-7890</span>
+                         <span class="text-gray-600 dark:text-gray-300">marthasari@tenda.com</span>
                      </li>
                  </ul>
              </div>
@@ -84,7 +72,7 @@
                  <p class="text-gray-500 dark:text-gray-400 text-sm text-center md:text-left mb-4 md:mb-0">
                      © {{ date('Y') }} Pemesanan Tenda. Hak Cipta Dilindungi.
                  </p>
-                 </div>
+             </div>
          </div>
      </div>
  </footer>

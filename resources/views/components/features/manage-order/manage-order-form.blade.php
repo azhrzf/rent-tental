@@ -13,7 +13,7 @@
             Update Order #{{ $order->identity_number }}
         </h2>
     </div>
-    <form action="{{ route('orders.update', $order->id) }}" method="POST" class="space-y-6">
+    <form action="{{ route('orders.update', $order->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
         @csrf
         @method('PATCH')
         <input type="hidden" name="order_date" value="{{ $order->order_date }}">
@@ -65,6 +65,18 @@
                     value="{{ old('actual_return_date', $order->actual_return_date) }}"
                     class="block w-full rounded-sm border-neutral-300 py-2 text-neutral-900 shadow-sm focus:border-black focus:ring-black dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:focus:border-white dark:focus:ring-white">
                 @error('actual_return_date')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+            <div>
+                <label for="payment_proof" class="w-fit pl-0.5 text-sm text-neutral-600 dark:text-neutral-300">
+                    Bukti Pembayaran
+                </label>
+                <input type="file" id="payment_proof" name="payment_proof"
+                    accept="image/jpeg,image/png,image/jpg,image/gif"
+                    class="w-full cursor-pointer overflow-clip rounded-sm border border-neutral-300 bg-neutral-50/50 text-sm text-neutral-600 file:mr-4 file:border-none file:bg-neutral-200 file:px-4 file:py-2 file:font-medium file:text-neutral-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black disabled:cursor-not-allowed disabled:opacity-75 dark:border-neutral-700 dark:bg-neutral-900/50 dark:text-neutral-300 dark:file:bg-neutral-700 dark:file:text-white dark:focus-visible:outline-white">
+                <p class="mt-1 text-xs text-neutral-500">Format: JPEG, PNG, JPG, GIF. Maksimal 2MB.</p>
+                @error('payment_proof')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>

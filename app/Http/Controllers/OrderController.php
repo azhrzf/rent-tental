@@ -65,9 +65,10 @@ class OrderController extends Controller
             'expected_return_date' => 'required|date|after_or_equal:pickup_date',
             'actual_return_date' => 'nullable|date|after_or_equal:pickup_date',
             'description' => 'nullable|string|max:500',
+            'payment_proof' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
-            'pickup_date.after_or_equal' => 'Tanggal pengambilan harus sama atau setelah tanggal pesanan.',
-            'expected_return_date.after_or_equal' => 'Tanggal pengembalian harus sama atau setelah tanggal pengambilan.',
+            'pickup_date.after_or_equal' => 'Tanggal Sewa harus sama atau setelah tanggal pesanan.',
+            'expected_return_date.after_or_equal' => 'Tanggal pengembalian harus sama atau setelah Tanggal Sewa.',
         ]);
 
         foreach ($order->orderDetails as $orderDetail) {
@@ -79,6 +80,23 @@ class OrderController extends Controller
 
         if ($request->status === 'paid' && $order->status === 'unpaid') {
             $validated['order_date'] = now()->format('Y-m-d');
+        }
+
+        if ($request->hasFile('payment_proof')) {
+            if ($order->payment_proof && file_exists(public_path('images/payments/' . $order->payment_proof))) {
+                unlink(public_path('images/payments/' . $order->payment_proof));
+            }
+
+            $image = $request->file('payment_proof');
+
+            $directory = public_path('images/payments');
+            if (!file_exists($directory)) {
+                mkdir($directory, 0755, true);
+            }
+
+            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move($directory, $imageName);
+            $validated['payment_proof'] = $imageName;
         }
 
         $order->update($validated);

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('expected_return_date')->nullable();
             $table->date('actual_return_date')->nullable();
             $table->enum('status', ['paid', 'unpaid', 'need_confirmation', 'returned'])->default('unpaid');
+            $table->string('payment_proof')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
         });

@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Laravel</title>
+    <title>{{ $title ?? config('app.name', 'Marta Sari Group') }}</title>
+    <link rel="icon" type="image/png" href="{{ asset('/assets/images/logo.png') }}">
     <script>
         if (localStorage.getItem('darkMode') === 'true' ||
             (!('darkMode' in localStorage) &&
