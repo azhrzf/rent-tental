@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Order extends Model
 {
@@ -10,6 +11,9 @@ class Order extends Model
         'user_id',
         'identity_number',
         'order_date',
+        'pickup_date',
+        'payment_confirmed_date',
+        'actual_return_date',
         'expected_return_date',
         'status',
         'description',
@@ -51,15 +55,55 @@ class Order extends Model
 
     public static function getUserOrdersWithDetails($userId, $startDate = null, $endDate = null, $perPage = 12)
     {
-        $orders = self::where('user_id', $userId)
+        return self::getOrdersWithDetails($userId, $startDate, $endDate, $perPage, false);
+    }
+
+    public static function getAdminOrdersWithDetails($startDate = null, $endDate = null, $perPage = 12)
+    {
+        return self::getOrdersWithDetails(null, $startDate, $endDate, $perPage, true);
+    }
+
+    private static function getOrdersWithDetails($userId = null, $startDate = null, $endDate = null, $perPage = 12, $isAdmin = false)
+    {
+        $query = self::with('user')
             ->where('status', '!=', 'unpaid')
             ->when($startDate, fn($query) => $query->whereDate('order_date', '>=', $startDate))
-            ->when($endDate, fn($query) => $query->whereDate('order_date', '<=', $endDate))
-            ->latest()
-            ->paginate($perPage);
+            ->when($endDate, fn($query) => $query->whereDate('order_date', '<=', $endDate));
+
+        if (!$isAdmin && $userId) {
+            $query->where('user_id', $userId);
+        }
+
+        $orders = $query->latest()->paginate($perPage);
 
         $orderIds = $orders->pluck('id');
-        $allOrderDetails = OrderDetail::with('tool')
+        $allOrderDetails = self::getOrderDetailsForOrders($orderIds);
+
+        $result = [
+            'orders' => $orders,
+            'allOrderDetails' => $allOrderDetails,
+            'sumToolQuantity' => $allOrderDetails->sum('quantity'),
+            'sumTotalPrice' => $allOrderDetails->sum('total_price'),
+            'isAdmin' => $isAdmin,
+        ];
+
+        if ($isAdmin) {
+            $result['usersInfo'] = $orders->getCollection()->map(function ($order) {
+                return [
+                    'order_id' => $order->id,
+                    'user_id' => $order->user->id,
+                    'user_name' => $order->user->name,
+                    'user_email' => $order->user->email,
+                ];
+            })->keyBy('order_id');
+        }
+
+        return $result;
+    }
+
+    private static function getOrderDetailsForOrders($orderIds)
+    {
+        return OrderDetail::with('tool')
             ->whereIn('order_id', $orderIds)
             ->get()
             ->map(function ($orderDetail) {
@@ -70,13 +114,51 @@ class Order extends Model
                     'total_price' => $orderDetail->tool->price * $orderDetail->quantity,
                 ];
             });
+    }
 
-        return [
-            'orders' => $orders,
-            'allOrderDetails' => $allOrderDetails,
-            'sumToolQuantity' => $allOrderDetails->sum('quantity'),
-            'sumTotalPrice' => $allOrderDetails->sum('total_price'),
+    public static function getOrderWithDetails($orderId, $keyword = '')
+    {
+        $isAdmin = Auth::check() && Auth::user()->role === 'admin';
+
+        $order = self::with(['orderDetails.tool', 'user'])->findOrFail($orderId);
+
+        $orderDetails = self::filterOrderDetailsByKeyword($order->orderDetails, $keyword);
+
+        $result = [
+            'order' => $order,
+            'orderDetails' => $orderDetails,
+            'totalQuantity' => $orderDetails->sum('quantity'),
+            'totalPrice' => $orderDetails->sum('total_price'),
+            'isAdmin' => $isAdmin,
         ];
+
+        if ($isAdmin) {
+            $result['user'] = [
+                'id' => $order->user->id,
+                'name' => $order->user->name,
+                'email' => $order->user->email,
+            ];
+        }
+
+        return $result;
+    }
+
+    private static function filterOrderDetailsByKeyword($orderDetails, $keyword)
+    {
+        return $orderDetails->filter(function ($orderDetail) use ($keyword) {
+            if (empty($keyword)) {
+                return true;
+            }
+            return stripos($orderDetail->tool->name, $keyword) !== false ||
+                stripos($orderDetail->tool->description, $keyword) !== false;
+        })->map(function ($orderDetail) {
+            return [
+                'order_detail' => $orderDetail,
+                'tool' => $orderDetail->tool,
+                'quantity' => $orderDetail->quantity,
+                'total_price' => $orderDetail->tool->price * $orderDetail->quantity,
+            ];
+        });
     }
 
     public static function getCurrentCartData($userId, $keyword = '', $perPage = 12)

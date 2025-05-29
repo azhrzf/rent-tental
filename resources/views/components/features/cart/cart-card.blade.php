@@ -28,14 +28,14 @@
             {{ words_limit($orderDetail['tool']['description'], 10) }}
         </p>
         @if ($orderDetail['potentialy_unavailable'])
-            <p class="text-red-500">
+            <p class="text-red-500 text-xs">
                 Barang ini mungkin tidak tersedia karena juga berada di keranjang pengguna lain. Segera selesaikan
                 penyewaan supaya tidak kehabisan!
             </p>
         @endif
         <div class="grid grid-cols-12 gap-3">
             <div class="col-span-8">
-                <x-features.cart.cart-card-quantity-form :id="$orderDetail['id']" :quantity="$orderDetail['total_quantity']" :availableQuantity="10" />
+                <x-features.cart.cart-card-quantity-form :id="$orderDetail['id']" :quantity="$orderDetail['total_quantity']" :availableQuantity="$orderDetail['tool']['available_quantity'] ?? ($orderDetail['tool']->availableQuantity ?? 0)" />
             </div>
             <div class="col-span-4">
                 <x-features.cart.cart-card-delete-form :id="$orderDetail['id']" />

@@ -21,20 +21,39 @@
                 class="rounded-sm w-fit border border-neutral-300 bg-neutral-50 px-2 py-1 text-xs font-medium text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">Tersedia:
                 {{ $tool->availableQuantity }}
             </span>
-            <span
-                class="rounded-sm w-fit border border-neutral-300 bg-neutral-50 px-2 py-1 text-xs font-medium text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">Tambah
-                ke keranjang:
-                Rp{{ format_number($tool->price) }}
-            </span>
+            @if (request()->is('manage/tools*'))
+                <span
+                    class="rounded-sm w-fit border border-neutral-300 bg-neutral-50 px-2 py-1 text-xs font-medium text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">Total
+                    Stok:
+                    {{ $tool->total_quantity }}
+                </span>
+            @else
+                <span
+                    class="rounded-sm w-fit border border-neutral-300 bg-neutral-50 px-2 py-1 text-xs font-medium text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">Tambah
+                    ke keranjang:
+                    Rp{{ format_number($tool->price) }}
+                </span>
+            @endif
         </div>
     </div>
-    <div class="mx-6 mb-6 grid grid-cols-12 gap-3">
-        <div class="col-span-8">
-            <x-features.catalog.catalog-card-quantity-form :tool="$tool" />
+    @if (request()->is('manage/tools*'))
+        <div class="mx-6 mb-6 flex space-x-2">
+            <x-features.manage-tool.manage-tool-update-form :tool="$tool" />
+            <x-features.manage-tool.manage-tool-delete :tool="$tool" />
+            <a href="{{ route('catalogs.show', $tool->id) }}"
+                class="px-4 flex items-center justify-center text-xs font-semibold bg-black text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200">
+                Detail
+            </a>
         </div>
-        <a href="{{ route('catalogs.show', $tool->id) }}"
-            class="col-span-4 flex items-center justify-center text-xs font-semibold bg-black text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200">
-            Detail
-        </a>
-    </div>
+    @else
+        <div class="mx-6 mb-6 grid grid-cols-12 gap-3">
+            <div class="col-span-8">
+                <x-features.catalog.catalog-card-quantity-form :tool="$tool" />
+            </div>
+            <a href="{{ route('catalogs.show', $tool->id) }}"
+                class="col-span-4 flex items-center justify-center text-xs font-semibold bg-black text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200">
+                Detail
+            </a>
+        </div>
+    @endif
 </article>

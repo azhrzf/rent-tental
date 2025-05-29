@@ -1,6 +1,6 @@
 @props(['id', 'quantity', 'availableQuantity'])
 
-<x-shared.buttons.modal-button modalName="edit-quantity-modal" class="w-full flex items-center justify-center gap-1.5">
+<x-shared.buttons.modal-button modalName="edit-quantity-modal-{{ $id }}" class="w-full flex items-center justify-center gap-1.5">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
         class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
@@ -11,7 +11,7 @@
     </svg>
     Ubah Jumlah
 </x-shared.buttons.modal-button>
-<x-utilities.modal name="edit-quantity-modal" maxWidth="sm">
+<x-utilities.modal name="edit-quantity-modal-{{ $id }}" maxWidth="sm">
     <form action="{{ route('cart.items.update', $id) }}" method="POST"
         class="flex flex-col gap-4 overflow-hidden rounded-sm bg-white text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">
         @csrf

@@ -16,7 +16,7 @@
                 <div class="flex flex-wrap gap-4">
                     <a href="{{ route('catalogs') }}"
                         class="px-6 py-3 border border-white bg-black/40 hover:bg-black/80 text-white font-medium rounded-sm transition duration-300">
-                        Pelajari Lebih Lanjut
+                        Lihat Katalog
                     </a>
                 </div>
             </div>

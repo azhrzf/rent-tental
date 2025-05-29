@@ -1,6 +1,6 @@
-@props(['route', 'keyword' => ''])
+@props(['route', 'keyword' => '', 'routeParams' => []])
 
-<form action="{{ route($route) }}" method="GET"
+<form action="{{ route($route, $routeParams) }}" method="GET"
     class="relative flex w-full flex-col gap-1 text-neutral-600 dark:text-neutral-300">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
         aria-hidden="true"

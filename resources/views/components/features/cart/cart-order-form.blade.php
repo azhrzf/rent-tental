@@ -1,6 +1,6 @@
 @props(['order', 'totalPrice'])
 
-<x-shared.buttons.modal-button modalName="process-order-modal" class="w-full flex items-center justify-center gap-1.5">
+<x-shared.buttons.modal-button modalName="process-order-modal-{{ $order->id }}" class="w-full flex items-center justify-center gap-1.5">
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
         class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-bag-check">
@@ -12,7 +12,7 @@
     </svg>
     Sewa seluruh alat
 </x-shared.buttons.modal-button>
-<x-utilities.modal name="process-order-modal" maxWidth="sm">
+<x-utilities.modal name="process-order-modal-{{ $order->id }}" maxWidth="sm">
     <div
         class="flex items-center justify-between border-b border-neutral-300 bg-neutral-50/60 px-4 pb-3 pt-2 dark:border-neutral-700 dark:bg-neutral-950/20">
         <h2 class="text-xl font-semibold text-neutral-900 dark:text-white">
@@ -28,18 +28,17 @@
         @csrf
         @method('PATCH')
         <input type="hidden" name="status" value="need_confirmation">
-        <div class="space-y-4 px-4 ">
+        <input type="hidden" id="order_date" name="order_date" value="{{ now()->format('Y-m-d') }}">
+        <div class="space-y-4 px-4">
             <div>
-                <label for="order_date"
-                    class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
-                    Tanggal Sewa
+                <label for="pickup_date" class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+                    Tanggal Pengambilan
                 </label>
-                <input type="date" id="order_date" name="order_date"
-                    value="{{ old('order_date', $order->order_date) }}"
-                    min="{{ date('Y-m-d', strtotime('+1 day')) }}"
+                <input type="date" id="pickup_date" name="pickup_date"
+                    value="{{ old('pickup_date', $order->pickup_date) }}" min="{{ date('Y-m-d', strtotime('+1 day')) }}"
                     class="block w-full rounded-sm border-neutral-300 py-2 text-neutral-900 shadow-sm focus:border-black focus:ring-black dark:border-neutral-700 dark:bg-neutral-900 dark:text-white dark:focus:border-white dark:focus:ring-white"
                     required>
-                @error('order_date')
+                @error('pickup_date')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>

@@ -17,7 +17,20 @@ class OrderController extends Controller
             $request->input('end_date')
         );
 
-        return view('routes.dashboard.orders-history', array_merge($result, [
+        return view('routes.dashboard.orders', array_merge($result, [
+            'startDate' => $request->input('start_date'),
+            'endDate' => $request->input('end_date'),
+        ]));
+    }
+
+    public function adminIndex(Request $request)
+    {
+        $result = Order::getAdminOrdersWithDetails(
+            $request->input('start_date'),
+            $request->input('end_date')
+        );
+
+        return view('routes.dashboard.manage-orders', array_merge($result, [
             'startDate' => $request->input('start_date'),
             'endDate' => $request->input('end_date'),
         ]));
@@ -47,10 +60,14 @@ class OrderController extends Controller
         $validated = $request->validate([
             'status' => 'required|in:paid,unpaid,returned,need_confirmation',
             'order_date' => 'required|date',
-            'expected_return_date' => 'required|date|after_or_equal:order_date',
+            'pickup_date' => 'required|date|after_or_equal:order_date',
+            'payment_confirmed_date' => 'nullable|date|after_or_equal:order_date',
+            'expected_return_date' => 'required|date|after_or_equal:pickup_date',
+            'actual_return_date' => 'nullable|date|after_or_equal:pickup_date',
             'description' => 'nullable|string|max:500',
         ], [
-            'expected_return_date.after_or_equal' => 'Tanggal pengembalian harus sama atau setelah tanggal sewa.',
+            'pickup_date.after_or_equal' => 'Tanggal pengambilan harus sama atau setelah tanggal pesanan.',
+            'expected_return_date.after_or_equal' => 'Tanggal pengembalian harus sama atau setelah tanggal pengambilan.',
         ]);
 
         foreach ($order->orderDetails as $orderDetail) {
@@ -71,5 +88,19 @@ class OrderController extends Controller
         }
 
         return redirect()->route('orders.index')->with('success', 'Pesanan berhasil. Silakan tunggu konfirmasi dari Admin.');
+    }
+
+    public function show(Request $request, $id)
+    {
+        $keyword = $request->input('search', '');
+        $orderData = Order::getOrderWithDetails($id, $keyword);
+
+        return view('routes.dashboard.orders-detail', [
+            'order' => $orderData['order'],
+            'orderDetails' => $orderData['orderDetails'],
+            'totalQuantity' => $orderData['totalQuantity'],
+            'totalPrice' => $orderData['totalPrice'],
+            'keyword' => $keyword,
+        ]);
     }
 }

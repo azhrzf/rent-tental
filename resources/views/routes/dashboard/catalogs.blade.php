@@ -1,10 +1,13 @@
  @if (session('success'))
      <x-utilities.toast variant="success" title="Berhasil" :message="session('success')" />
  @endif
+ @if ($errors->any())
+     <x-utilities.toast variant="danger" title="Kesalahan" :message="$errors->all() ? implode(', ', $errors->all()) : ''" />
+ @endif
  <x-dashboard-layout>
      <div class="space-y-6">
          <div class="w-full lg:max-w-xs">
-             <x-shared.inputs.search-input route="catalogs" keyword="{{ $keyword }}" />
+             <x-shared.inputs.search-input route="catalogs" :keyword="$keyword" />
          </div>
          <div class="grid gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
              @if ($tools && $tools->count())

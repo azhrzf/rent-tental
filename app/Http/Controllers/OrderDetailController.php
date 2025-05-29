@@ -60,8 +60,9 @@ class OrderDetailController extends Controller
         ]);
 
         $userId = Auth::id();
+        $isAdmin = Auth::user()->role === 'admin';
 
-        if ($orderDetail->order->user_id !== $userId) {
+        if (!$isAdmin && $orderDetail->order->user_id !== $userId) {
             return redirect()->back()->with('danger', 'Anda tidak memiliki akses untuk mengubah item ini.');
         }
 
@@ -75,8 +76,9 @@ class OrderDetailController extends Controller
     public function destroy(OrderDetail $orderDetail)
     {
         $userId = Auth::id();
+        $isAdmin = Auth::user()->role === 'admin';
 
-        if ($orderDetail->order->user_id !== $userId) {
+        if (!$isAdmin && $orderDetail->order->user_id !== $userId) {
             return redirect()->back()->with('danger', 'Anda tidak memiliki akses untuk menghapus item ini.');
         }
 

@@ -3,12 +3,12 @@
 ])
 
 <aside x-cloak @class([
-    'fixed md:sticky left-0 top-0 z-50 flex min-h-screen w-60 shrink-0 border-r border-neutral-300 bg-neutral-50 p-4 transition-transform duration-300 md:w-64 md:translate-x-0 dark:border-neutral-700 dark:bg-neutral-900 h-screen',
+    'fixed md:sticky left-0 top-0 z-50 flex min-h-screen w-60 shrink-0 border-r border-neutral-300 bg-neutral-50 py-4 transition-transform duration-300 md:w-64 md:translate-x-0 dark:border-neutral-700 dark:bg-neutral-900 h-screen',
     'lg:hidden' => $showOnlyMobile,
 ]) x-bind:class="sidebarIsOpen ? 'translate-x-0' : '-translate-x-60'"
     aria-label="sidebar navigation">
     <div class="flex flex-col w-full h-full overflow-y-auto">
-        <a href="/" class="flex items-center space-x-1 title-link">
+        <a href="/" class="flex items-center space-x-1 title-link mx-4">
             <x-globals.application-logo class="lg:w-8 lg:h-8" />
             <h1 class="text-md lg:text-xl font-bold">
                 {{ config('app.name') }}
@@ -17,7 +17,7 @@
         <hr class="my-5 border-t border-neutral-200/50 dark:border-neutral-700/50">
         @if (!Auth::check())
             <div class="block lg:hidden space-y-3 pb-3">
-                <div class="flex space-x-2">
+                <div class="flex space-x-2 mx-4">
                     <a href="{{ route('register') }}"
                         class="whitespace-nowrap rounded-sm bg-black border border-black px-3 py-1 text-xs font-medium tracking-wide text-neutral-100 transition hover:opacity-75 text-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:opacity-100 active:outline-offset-0 disabled:opacity-75 disabled:cursor-not-allowed dark:bg-white dark:border-white dark:text-black dark:focus-visible:outline-white">
                         Register
@@ -31,7 +31,7 @@
         @endif
         <div class="flex flex-col gap-2 overflow-y-auto pb-6">
             <a href="{{ route('catalogs') }}" @class([
-                'flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium underline-offset-2 focus-visible:underline focus:outline-hidden',
+                'flex items-center rounded-sm gap-2 px-4 py-1.5 text-sm font-medium underline-offset-2 focus-visible:underline focus:outline-hidden',
                 'bg-black/10 dark:bg-white/10 text-neutral-900 dark:text-white' => request()->is(
                     'catalogs*'),
                 'text-neutral-600 hover:bg-black/5 hover:text-neutral-900 dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white' => !request()->is(
@@ -49,7 +49,7 @@
             </a>
             @auth
                 <a href="{{ route('cart.current') }}" @class([
-                    'flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium underline-offset-2 focus-visible:underline focus:outline-hidden',
+                    'flex items-center rounded-sm gap-2 px-4 py-1.5 text-sm font-medium underline-offset-2 focus-visible:underline focus:outline-hidden',
                     'bg-black/10 dark:bg-white/10 text-neutral-900 dark:text-white' => request()->is(
                         'cart*'),
                     'text-neutral-600 hover:bg-black/5 hover:text-neutral-900 dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white' => !request()->is(
@@ -75,11 +75,11 @@
                     <span>Keranjang</span>
                 </a>
                 <a href="{{ route('orders.index') }}" @class([
-                    'flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium underline-offset-2 focus-visible:underline focus:outline-hidden',
+                    'flex items-center rounded-sm gap-2 px-4 py-1.5 text-sm font-medium underline-offset-2 focus-visible:underline focus:outline-hidden',
                     'bg-black/10 dark:bg-white/10 text-neutral-900 dark:text-white' => request()->is(
-                        'orders/history*'),
+                        'orders*'),
                     'text-neutral-600 hover:bg-black/5 hover:text-neutral-900 dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white' => !request()->is(
-                        'orders/history*'),
+                        'orders*'),
                 ])>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -95,7 +95,7 @@
                     <span>Riwayat Pemesanan</span>
                 </a>
                 <a href="{{ route('profile.edit') }}" @class([
-                    'flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium underline-offset-2 focus-visible:underline focus:outline-hidden',
+                    'flex items-center rounded-sm gap-2 px-4 py-1.5 text-sm font-medium underline-offset-2 focus-visible:underline focus:outline-hidden',
                     'bg-black/10 dark:bg-white/10 text-neutral-900 dark:text-white' => request()->is(
                         'profile*'),
                     'text-neutral-600 hover:bg-black/5 hover:text-neutral-900 dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white' => !request()->is(
@@ -113,8 +113,13 @@
                 </a>
                 @if (auth()->user()->role === 'admin')
                     <hr class="my-3 border-t border-neutral-200/50 dark:border-neutral-700/50">
-                    <a href="/tools-management"
-                        class="{{ request()->is('tools-management*') ? 'bg-black/10 dark:bg-white/10 text-neutral-900 dark:text-white' : 'text-neutral-600 hover:bg-black/5 hover:text-neutral-900 dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white' }} flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium  underline-offset-2 focus-visible:underline focus:outline-hidden">
+                    <a href="{{ route('manage.tools.index') }}" @class([
+                        'flex items-center rounded-sm gap-2 px-4 py-1.5 text-sm font-medium underline-offset-2 focus-visible:underline focus:outline-hidden',
+                        'bg-black/10 dark:bg-white/10 text-neutral-900 dark:text-white' => request()->is(
+                            'manage/tools*'),
+                        'text-neutral-600 hover:bg-black/5 hover:text-neutral-900 dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white' => !request()->is(
+                            'manage/tools*'),
+                    ])>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-tool">
@@ -123,8 +128,13 @@
                         </svg>
                         <span>Kelola Alat</span>
                     </a>
-                    <a href="/orders-management"
-                        class="{{ request()->is('orders-management*') ? 'bg-black/10 dark:bg-white/10 text-neutral-900 dark:text-white' : 'text-neutral-600 hover:bg-black/5 hover:text-neutral-900 dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white' }} flex items-center rounded-sm gap-2 px-2 py-1.5 text-sm font-medium  underline-offset-2 focus-visible:underline focus:outline-hidden">
+                    <a href="{{ route('manage.orders.index') }}" @class([
+                        'flex items-center rounded-sm gap-2 px-4 py-1.5 text-sm font-medium underline-offset-2 focus-visible:underline focus:outline-hidden',
+                        'bg-black/10 dark:bg-white/10 text-neutral-900 dark:text-white' => request()->is(
+                            'manage/orders*'),
+                        'text-neutral-600 hover:bg-black/5 hover:text-neutral-900 dark:text-neutral-300 dark:hover:bg-white/5 dark:hover:text-white' => !request()->is(
+                            'manage/orders*'),
+                    ])>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round"
