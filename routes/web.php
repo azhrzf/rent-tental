@@ -46,6 +46,9 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::get('/manage/orders', [OrderController::class, 'adminIndex'])
         ->name('manage.orders.index');
 
+    Route::delete('/manage/orders/{order}', [OrderController::class, 'destroy'])
+        ->name('manage.orders.destroy');
+
     Route::get('/manage/tools', [ToolController::class, 'adminIndex'])
         ->name('manage.tools.index');
 

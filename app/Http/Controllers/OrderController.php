@@ -53,7 +53,9 @@ class OrderController extends Controller
 
     public function update(Request $request, Order $order)
     {
-        if ($order->user_id !== Auth::id()) {
+         $isAdmin = Auth::user()->role === 'admin';
+
+        if (!$isAdmin && $order->user_id !== Auth::id()) {
             return redirect()->back()->with('danger', 'Anda tidak memiliki akses untuk mengubah pesanan ini.');
         }
 
@@ -102,10 +104,10 @@ class OrderController extends Controller
         $order->update($validated);
 
         if ($request->status === 'paid') {
-            return redirect()->route('orders.index')->with('success', 'Pesanan berhasil dibayar dan akan segera diproses.');
+            return redirect()->back()->with('success', 'Pesanan berhasil dibayar dan akan segera diproses.');
         }
 
-        return redirect()->route('orders.index')->with('success', 'Pesanan berhasil. Silakan tunggu konfirmasi dari Admin.');
+        return redirect()->back()->with('success', 'Pesanan berhasil. Silakan tunggu konfirmasi dari Admin.');
     }
 
     public function show(Request $request, $id)
@@ -120,5 +122,20 @@ class OrderController extends Controller
             'totalPrice' => $orderData['totalPrice'],
             'keyword' => $keyword,
         ]);
+    }
+
+    public function destroy(Order $order)
+    {
+        try {
+            if ($order->payment_proof && file_exists(public_path('images/payments/' . $order->payment_proof))) {
+                unlink(public_path('images/payments/' . $order->payment_proof));
+            }
+
+            $order->delete();
+
+            return redirect()->back()->with('success', 'Pesanan berhasil dihapus.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('danger', 'Gagal menghapus pesanan: ' . $e->getMessage());
+        }
     }
 }

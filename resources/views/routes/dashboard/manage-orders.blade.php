@@ -107,7 +107,12 @@
                                         </x-shared.buttons.secondary-button>
                                     </a>
                                 </td>
-                                <td><x-features.manage-order.manage-order-form :order="$order" /></td>
+                                <td>
+                                    <div class="flex space-x-2">
+                                        <x-features.manage-order.manage-order-form :order="$order" />
+                                        <x-features.manage-order.manage-order-delete-button :order="$order" />
+                                    </div>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
