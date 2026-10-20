@@ -1,61 +1,108 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Pemesanan Tenda
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A web app for renting tents and event equipment. Customers browse a catalog, add items to a cart, place an order and upload proof of payment. Admins manage the inventory and confirm orders.
 
-## About Laravel
+Built with Laravel 12, Blade, Tailwind CSS and Alpine.js.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Customers**
+- Browse and search the equipment catalog, and view item details
+- Cart: add items, change quantities, remove items
+- Place orders and track their status (`unpaid`, `need_confirmation`, `paid`, `returned`)
+- Upload proof of payment
+- Registration, login, email verification and profile management
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**Admins**
+- Manage tools: create, update and delete items, with image upload and availability status
+- Manage orders: confirm payments, record pickup and return dates, delete orders
+- Role-based access through an `admin` middleware
 
-## Learning Laravel
+**General**
+- Dark/light theme toggle
+- Responsive layout with a dashboard sidebar
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Tech Stack
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+| Layer    | Technology                                   |
+|----------|----------------------------------------------|
+| Backend  | PHP 8.2+, Laravel 12, Laravel Breeze (auth)  |
+| Frontend | Blade, Tailwind CSS 3, Alpine.js, Vite       |
+| Database | MySQL (default; configurable)                |
+| Testing  | Pest                                         |
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Getting Started
 
-## Laravel Sponsors
+### Requirements
+- PHP 8.2 or newer, with Composer
+- Node.js 18+ and npm
+- MySQL (or another database supported by Laravel)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Installation
 
-### Premium Partners
+```bash
+git clone https://github.com/<your-username>/pemesanan-tenda.git
+cd pemesanan-tenda
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+composer install
+npm install
 
-## Contributing
+cp .env.example .env
+php artisan key:generate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Create a database (the default name is `penyewaan_tenda`), then set the `DB_*` values in `.env`.
 
-## Code of Conduct
+```bash
+php artisan migrate --seed
+php artisan storage:link
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Run
 
-## Security Vulnerabilities
+```bash
+php artisan serve   # http://localhost:8000
+npm run dev         # in a second terminal
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+For a production build, run `npm run build`.
+
+### Demo accounts
+
+`php artisan migrate --seed` creates these accounts:
+
+| Role  | Email               | Password   |
+|-------|---------------------|------------|
+| Admin | admin@example.com   | 12345678   |
+| User  | user@example.com    | 12345678   |
+
+> These are for local development only. Change or remove them before deploying.
+
+### Tests
+
+```bash
+php artisan test
+```
+
+## Project Structure
+
+```
+app/Http/Controllers/   Order, OrderDetail, Tool, Profile and auth controllers
+app/Http/Middleware/    AdminMiddleware (role check)
+app/Models/             User, Tool, Order, OrderDetail, Payment
+database/migrations/    Schema for users, tools, orders, order details, payments
+resources/views/        Blade views and reusable components
+routes/web.php          Public, customer and admin routes
+```
+
+## Data Model
+
+- **User**: has a role (`admin` or `user`), phone number and address
+- **Tool**: rentable item with product number, price, stock and status
+- **Order**: belongs to a user and tracks order, pickup and return dates, status and payment proof
+- **OrderDetail**: line item linking an order to a tool, with a quantity
+- **Payment**: final price record for an order
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Released under the [MIT License](https://opensource.org/licenses/MIT).
